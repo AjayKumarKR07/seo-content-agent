@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  seo-agent-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: seo-agent-api
+    ports:
+      - "8000:8000"
+    environment:
+      - MASUMI_API_KEY=${MASUMI_API_KEY}
+      - MASUMI_BASE_URL=${MASUMI_BASE_URL}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./agent:/app/agent
+      - ./masumi-integration:/app/masumi-integration
+      - ./api:/app/api
+      - ./logs:/app/logs
+    networks:
+      - seo-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  masumi-node:
+    image: masumi/node:latest
+    container_name: masumi-node
+    ports:
+      - "9000:9000"
+    environment:
+      - NODE_ENV=development
+      - MASUMI_API_KEY=${MASUMI_API_KEY}
+    networks:
+      - seo-network
+    volumes:
+      - masumi-data:/data
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: seo-agent-db
+    environment:
+      - POSTGRES_USER=seo_admin
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-seo_password}
+      - POSTGRES_DB=seo_agent
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - seo-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U seo_admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  seo-network:
+    driver: bridge
+
+volumes:
+  masumi-data:
+  postgres-data:

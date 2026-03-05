@@ -1,0 +1,19 @@
+{
+  "name": "blog_post",
+  "description": "Blog post content template",
+  "title_template": "{topic} - Complete Guide",
+  "body_template": "In this comprehensive guide, we explore {topic} in detail. Learn best practices, strategies, and tips for success.",
+  "sections": [
+    "Introduction",
+    "What is {topic}?",
+    "Why {topic} Matters",
+    "Getting Started with {topic}",
+    "Advanced Strategies",
+    "Common Mistakes",
+    "Tools and Resources",
+    "Conclusion"
+  ],
+  "min_length": 1500,
+  "target_keywords": 5,
+  "recommended_reading_time": "8-10 minutes"
+}

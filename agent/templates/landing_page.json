@@ -1,0 +1,19 @@
+{
+  "name": "landing_page",
+  "description": "Landing page content template",
+  "title_template": "{topic} - High Converting Landing Page",
+  "body_template": "Discover the power of {topic}. Transform your business today with our proven solutions.",
+  "sections": [
+    "Hero Section",
+    "Problem Statement",
+    "Solution Overview",
+    "Key Features",
+    "Benefits",
+    "Social Proof",
+    "Call to Action",
+    "FAQ"
+  ],
+  "min_length": 800,
+  "target_keywords": 3,
+  "focus": "conversion"
+}
